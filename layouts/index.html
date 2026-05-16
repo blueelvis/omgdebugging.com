@@ -1,0 +1,52 @@
+{{ define "main" }}
+<div class="container">
+  <div class="hero">
+    <h1>OMG Debugging</h1>
+    <p>{{ .Site.Params.description }}</p>
+  </div>
+
+  <div class="section-grid">
+    {{ $sections := slice "technology" "coding" "finance" "life" }}
+    {{ $icons := dict "technology" "&#128268;" "coding" "&#128187;" "finance" "&#128176;" "life" "&#127793;" }}
+    {{ $descs := dict "technology" "Cloud, DevOps, infrastructure and everything tech" "coding" "Programming languages, frameworks and developer tools" "finance" "Personal finance, investments and money matters" "life" "Random life tidbits, tips and experiences" }}
+    {{ range $sections }}
+      {{ $section := site.GetPage . }}
+      {{ $icon := index $icons . }}
+      {{ $desc := index $descs . }}
+      <a href="/{{ . }}/" class="section-card">
+        <span class="section-icon">{{ $icon | safeHTML }}</span>
+        <h3>{{ . | title }}</h3>
+        <p>{{ $desc }}</p>
+        {{ with $section }}
+          <span class="count">{{ len .Pages }} {{ if eq (len .Pages) 1 }}post{{ else }}posts{{ end }}</span>
+        {{ else }}
+          <span class="count">0 posts</span>
+        {{ end }}
+      </a>
+    {{ end }}
+  </div>
+
+  <div class="recent-posts">
+    <h2>Recent Posts</h2>
+    <ul class="posts-list">
+      {{ $mainSections := .Site.Params.mainSections }}
+      {{ range where .Site.RegularPages "Section" "in" $mainSections | first 10 }}
+        <li class="post-item">
+          <h3 class="post-item-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+          <div class="post-meta">
+            <span>{{ .Date.Format $.Site.Params.dateFormat }}</span>
+            <span>{{ .Section | title }}</span>
+          </div>
+          {{ with .Params.tags }}
+            <div class="post-tags">
+              {{ range first 3 . }}
+                <a href="{{ "tags/" | absURL }}{{ . | urlize }}/" class="tag">{{ . }}</a>
+              {{ end }}
+            </div>
+          {{ end }}
+        </li>
+      {{ end }}
+    </ul>
+  </div>
+</div>
+{{ end }}

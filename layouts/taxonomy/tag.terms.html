@@ -1,0 +1,14 @@
+{{ define "main" }}
+<div class="container-narrow">
+  <div class="section-header">
+    <h1>All Tags</h1>
+    <p>Browse posts by topic</p>
+  </div>
+
+  <div class="tags-cloud">
+    {{ range .Data.Terms.Alphabetical }}
+      <a href="{{ .Page.Permalink }}" class="tag">{{ .Page.Title }} ({{ .Count }})</a>
+    {{ end }}
+  </div>
+</div>
+{{ end }}

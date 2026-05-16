@@ -1,0 +1,31 @@
+{{ define "main" }}
+<div class="container-narrow">
+  <div class="section-header">
+    <h1>{{ .Title }}</h1>
+    {{ with .Params.description }}<p>{{ . }}</p>{{ end }}
+    {{ with .Content }}<div class="post-content">{{ . }}</div>{{ end }}
+  </div>
+
+  <ul class="posts-list">
+    {{ $paginator := .Paginate .Pages }}
+    {{ range $paginator.Pages }}
+      <li class="post-item">
+        <h3 class="post-item-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+        <div class="post-meta">
+          <span>{{ .Date.Format $.Site.Params.dateFormat }}</span>
+          {{ if .Params.tags }}
+            {{ range first 3 .Params.tags }}
+              <a href="{{ "tags/" | absURL }}{{ . | urlize }}/" class="tag">{{ . }}</a>
+            {{ end }}
+          {{ end }}
+        </div>
+        {{ with .Summary }}
+          <p class="post-excerpt">{{ . | plainify | truncate 160 }}</p>
+        {{ end }}
+      </li>
+    {{ end }}
+  </ul>
+
+  {{ template "_internal/pagination.html" . }}
+</div>
+{{ end }}

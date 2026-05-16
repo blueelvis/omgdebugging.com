@@ -1,0 +1,20 @@
+{{ define "main" }}
+<div class="container-narrow">
+  <div class="section-header">
+    <h1>Tagged: {{ .Title }}</h1>
+    <p>{{ len .Pages }} {{ if eq (len .Pages) 1 }}post{{ else }}posts{{ end }} with this tag</p>
+  </div>
+
+  <ul class="posts-list">
+    {{ range .Pages }}
+      <li class="post-item">
+        <h3 class="post-item-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+        <div class="post-meta">
+          <span>{{ .Date.Format $.Site.Params.dateFormat }}</span>
+          <span>{{ .Section | title }}</span>
+        </div>
+      </li>
+    {{ end }}
+  </ul>
+</div>
+{{ end }}
