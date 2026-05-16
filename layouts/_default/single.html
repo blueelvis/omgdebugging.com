@@ -1,5 +1,7 @@
 {{ define "main" }}
-<div class="post-layout">
+{{ $toc := .TableOfContents }}
+{{ $hasToc := and (.Site.Params.toc) (findRE "<li>" $toc) }}
+<div class="{{ if $hasToc }}post-layout{{ else }}container-narrow{{ end }}">
   <article>
     <div class="post-header">
       <h1>{{ .Title }}</h1>
@@ -43,12 +45,12 @@
     </nav>
   </article>
 
-  {{ if and (.Site.Params.toc) (.TableOfContents) }}
+  {{ if $hasToc }}
     <aside class="toc-sidebar">
       <div class="toc-wrapper">
         <h4>On This Page</h4>
         <nav>
-          {{ .TableOfContents }}
+          {{ $toc }}
         </nav>
       </div>
     </aside>
