@@ -1,0 +1,20 @@
+<header class="site-header">
+  <div class="header-inner">
+    <a href="{{ .Site.BaseURL }}" class="site-logo">OMG<span>Debugging</span></a>
+
+    <button id="nav-toggle" class="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
+
+    <nav id="main-nav" class="main-nav">
+      {{ range .Site.Menus.main }}
+        <a href="{{ .URL }}"{{ if $.IsMenuCurrent "main" . }} class="active"{{ end }}>{{ .Name }}</a>
+      {{ end }}
+    </nav>
+
+    <div class="header-actions">
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+        <span class="icon-sun">&#9728;</span>
+        <span class="icon-moon">&#9790;</span>
+      </button>
+    </div>
+  </div>
+</header>
